@@ -7,6 +7,7 @@ main = do
         print (sumCommonPriority lines)
         print (sumBadgePriority lines)
 
+priority :: Char -> Int
 priority c
   | ord 'a' <= ord c && ord c <= ord 'z' = ord c - ord 'a' + 1
   | ord 'A' <= ord c && ord c <= ord 'Z' = ord c - ord 'A' + 27
