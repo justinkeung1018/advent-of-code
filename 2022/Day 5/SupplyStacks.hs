@@ -3,7 +3,7 @@ import Data.Char
 import Data.Array
 import Text.Read
 
-type Procedure = (Int, [Int])
+type Procedure = (Int, (Int, Int))
 type Crates = Array Int String
 
 main = do 
@@ -19,7 +19,7 @@ main = do
 execute1 :: [Procedure] -> Crates -> Crates
 execute1 [] cs
   = cs
-execute1 ((c, [from, to]) : ps) cs 
+execute1 ((c, (from, to)) : ps) cs 
   = rest // [(from, from'), (to, reverse to' ++ (rest ! to))]
   where
     (to', from') = splitAt c (rest ! from)
@@ -28,7 +28,7 @@ execute1 ((c, [from, to]) : ps) cs
 execute2 :: [Procedure] -> Crates -> Crates
 execute2 [] cs
   = cs
-execute2 ((c, [from, to]) : ps) cs 
+execute2 ((c, (from, to)) : ps) cs 
   = rest // [(from, from'), (to, to' ++ (rest ! to))]
   where
     (to', from') = splitAt c (rest ! from)
@@ -39,14 +39,16 @@ parseProcedure pLines
   = map parseProcedure' (splitBy "\n" pLines)
   where
     parseProcedure' line
-      = (readInt (drop (length "move") crates), map readInt (splitBy "to" ins))
+      = (crates, (from, to))
       where
-        [crates, ins] = splitBy "from" line
+        [move, fromTo] = splitBy "from" line
+        crates = readInt (drop (length "move") move)
+        [from, to] = map readInt (splitBy "to" fromTo)
 
 parseCrates :: String -> Crates
 parseCrates cLines
   = array (1, numCrates) [(i, (trim . init) line) 
-                          | i <- [1..numCrates], 
+                          | i <- [1 .. numCrates], 
                             line <- transposed, 
                             readIntMaybe (filter isDigit line) == Just i]
   where
