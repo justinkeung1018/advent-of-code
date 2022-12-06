@@ -39,11 +39,9 @@ parseProcedure pLines
   = map parseProcedure' (splitBy "\n" pLines)
   where
     parseProcedure' line
-      = (crates, (from, to))
+      = (crates, (f, t))
       where
-        [move, fromTo] = splitBy "from" line
-        crates = readInt (drop (length "move") move)
-        [from, to] = map readInt (splitBy "to" fromTo)
+        [_, Just crates, _, Just f, _, Just t] = map readIntMaybe (words line)
 
 parseCrates :: String -> Crates
 parseCrates cLines
