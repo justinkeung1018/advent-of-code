@@ -5,7 +5,6 @@ main = do
         print (firstPacket contents)
         print (firstMessage contents)
 
-
 firstPacket :: String -> Int
 firstPacket ""
   = -1
