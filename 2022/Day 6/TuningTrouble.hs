@@ -18,15 +18,4 @@ firstMessage ""
 firstMessage s@(c : cs)
   | (length . nub . take 14) s == 14 = 14
   | otherwise                        = 1 + firstMessage cs
-
-splitBy :: String -> String -> [String]
-splitBy dl s
-  = splitBy' s ""
-  where
-    splitBy' "" s'
-      = [s']
-    splitBy' s@(c : cs) s'
-      | pre == dl = s' : splitBy' suf ""
-      | otherwise = splitBy' cs (s' ++ [c])
-      where
-        (pre, suf) = splitAt (length dl) s
+  
