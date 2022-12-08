@@ -57,10 +57,11 @@ public class TreeHouse {
         int maxScenicScore = 0;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                int top = distance(trees, trees.get(i).get(j), i, j, 0);
-                int bottom = distance(trees, trees.get(i).get(j), i, j, 1);
-                int left = distance(trees, trees.get(i).get(j), i, j, 2);
-                int right = distance(trees, trees.get(i).get(j), i, j, 3);
+                int tree = trees.get(i).get(j);
+                int top = distance(trees, tree, i, j, 0);
+                int bottom = distance(trees, tree, i, j, 1);
+                int left = distance(trees, tree, i, j, 2);
+                int right = distance(trees, tree, i, j, 3);
                 maxScenicScore = Math.max(maxScenicScore, top * bottom * left * right);
             }
         }
