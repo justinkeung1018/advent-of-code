@@ -27,7 +27,7 @@ class HillClimbing(private val input: List<String>) {
             }
         }
         return numSteps
-    }cd 
+    }
 
     private fun height(square: Char) =
         when (square) {
