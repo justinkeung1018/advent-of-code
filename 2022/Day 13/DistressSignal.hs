@@ -40,7 +40,7 @@ parse s
   = parse' s [] (List [])
   where
     parse' :: String -> [X] -> X -> X
-    parse' "" [stack] result
+    parse' "" [stack] _
       = stack
     parse' ccs@(c : cs) stack result@(List res)
       | c == ']' && pop == Bracket '[' = parse' cs (List res : rest) (List [])
