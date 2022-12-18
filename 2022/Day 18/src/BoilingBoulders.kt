@@ -24,31 +24,35 @@ fun exteriorSurfaceArea(cubes: Set<Triple<Int, Int, Int>>): Int {
     val max = Triple(cubes.maxOf { it.first } + 1, cubes.maxOf { it.second } + 1, cubes.maxOf { it.third } + 1)
     val water = mutableSetOf<Triple<Int, Int, Int>>()
     val blocked = cubes.toMutableSet()
-    fun dfs(cube: Triple<Int, Int, Int>) {
-        if (blocked.contains(cube)) {
-            return
+    fun bfs(cube: Triple<Int, Int, Int>) {
+        val queue = mutableListOf<Triple<Int, Int, Int>>()
+        if (!blocked.contains(cube)) {
+            queue.add(cube)
         }
-        val x = cube.first
-        val y = cube.second
-        val z = cube.third
-        val adjacent = setOf(
-            Triple(x - 1, y, z),
-            Triple(x + 1, y, z),
-            Triple(x, y - 1, z),
-            Triple(x, y + 1, z),
-            Triple(x, y, z - 1),
-            Triple(x, y, z + 1)
-        ).filter {
-            it.first in min.first..max.first
-                    && it.second in min.second..max.second
-                    && it.third in min.third..max.third
+        while (queue.isNotEmpty()) {
+            val currCube = queue.removeFirst()
+            val x = currCube.first
+            val y = currCube.second
+            val z = currCube.third
+            val adjacent = setOf(
+                Triple(x - 1, y, z),
+                Triple(x + 1, y, z),
+                Triple(x, y - 1, z),
+                Triple(x, y + 1, z),
+                Triple(x, y, z - 1),
+                Triple(x, y, z + 1)
+            ).filter {
+                it.first in min.first..max.first
+                        && it.second in min.second..max.second
+                        && it.third in min.third..max.third
+            }.filter { !blocked.contains(it) }
+            queue.addAll(adjacent)
+            blocked.addAll(adjacent)
+            water.addAll(adjacent)
         }
-        blocked.add(cube)
-        water.add(cube)
-        adjacent.forEach { dfs(it) }
     }
 
-    dfs(min)
+    bfs(min)
 
     var exteriorSurfaceArea = 0
     for (cube in cubes) {
